@@ -101,7 +101,6 @@ class Ps_Reminder extends Module
             Configuration::updateValue($key, 0);
         }
 
-
         return parent::install();
     }
 
@@ -220,7 +219,8 @@ class Ps_Reminder extends Module
                 $this->trans(
                     'Discount for your cancelled cart',
                     array(),
-                    'Modules.Reminder.Admin')
+                    'Modules.Reminder.Admin'
+                )
             );
             if (false !== $voucher) {
                 $template_vars = array(
@@ -613,8 +613,8 @@ class Ps_Reminder extends Module
         }
 
         $code = 'FLW-' . (int)$id_email_type . '-' . Tools::strtoupper(
-                Tools::passwdGen(10)
-            );
+            Tools::passwdGen(10)
+        );
         $cart_rule->code = $code;
         $cart_rule->active = 1;
         if (!$cart_rule->add()) {
@@ -654,7 +654,8 @@ class Ps_Reminder extends Module
                 'SELECT id_cart_rule
                  FROM '._DB_PREFIX_.'cart_rule
                  WHERE date_to < NOW()
-                 AND code LIKE "FLW-%"');
+                 AND code LIKE "FLW-%"'
+            );
             foreach ($outdated_discounts as $outdated_discount) {
                 $cart_rule = new CartRule(
                     (int)$outdated_discount['id_cart_rule']
@@ -746,10 +747,10 @@ class Ps_Reminder extends Module
         if (Shop::getContext() === Shop::CONTEXT_SHOP) {
             $cron_info = $this->trans(
                 'Define the settings and paste the following URL in the crontab, or call it manually on a daily basis:',
-                    array(),
-                    'Modules.Reminder.Admin'
-                ).'<br /><b>' . $this->context->shop->getBaseURL() .
-                'modules/followup/cron.php?secure_key=' .
+                array(),
+                'Modules.Reminder.Admin'
+            ).'<br /><b>' . $this->context->shop->getBaseURL(true) .
+                'modules/'.$this->name.'/cron.php?secure_key=' .
                 Configuration::get('PS_FOLLOWUP_SECURE_KEY') . '</b></p>';
         }
 
@@ -765,9 +766,9 @@ class Ps_Reminder extends Module
                 ),
                 'description' => $this->trans(
                     'Four kinds of e-mail alerts are available in order to stay in touch with your customers!',
-                        array(),
-                        'Modules.Reminder.Admin'
-                    ) . '<br />' . $cron_info,
+                    array(),
+                    'Modules.Reminder.Admin'
+                ) . '<br />' . $cron_info,
             )
         );
 
@@ -1226,8 +1227,9 @@ class Ps_Reminder extends Module
         $helper->module = $this;
         $helper->submit_action = 'submitFollowUp';
         $helper->currentIndex = $this->context->link->getAdminLink(
-                'AdminModules',
-                false) .
+            'AdminModules',
+            false
+        ) .
             '&configure=' . $this->name .
             '&tab_module=' . $this->tab .
             '&module_name=' . $this->name;
